@@ -373,19 +373,19 @@ module fsm(
     output reg seletor_memoria,
     output reg [3:0] estado
 );
-    localparam IDLE             = 4'd0;
-    localparam GERAR            = 4'd1;
-    localparam SALVAR           = 4'd2;
-    localparam PREP_EXIBICAO    = 4'd3;
-    localparam EXIBIR           = 4'd4;
-    localparam INTERVALO        = 4'd5;
-    localparam PREP_ENTRADA     = 4'd6;
-    localparam ESPERA_JOGADA    = 4'd7;
-    localparam COMPARAR         = 4'd8;
-    localparam PROXIMA_JOGADA   = 4'd9;
-    localparam VITORIA_RODADA   = 4'd10;
-    localparam DERROTA          = 4'd11;
-    localparam WIN              = 4'd12;
+    localparam IDLE = 4'd0;
+    localparam GERAR = 4'd1;
+    localparam SALVAR = 4'd2;
+    localparam PREP_EXIBICAO = 4'd3;
+    localparam EXIBIR = 4'd4;
+    localparam INTERVALO = 4'd5;
+    localparam PREP_ENTRADA = 4'd6;
+    localparam ESPERA_JOGADA = 4'd7;
+    localparam COMPARAR = 4'd8;
+    localparam PROXIMA_JOGADA = 4'd9;
+    localparam VITORIA_RODADA = 4'd10;
+    localparam DERROTA = 4'd11;
+    localparam WIN = 4'd12;
 
     reg [3:0] prox_estado;
 
@@ -568,83 +568,58 @@ module genius (
     wire [3:0] estado;
 //fsm
     fsm CONTROL(
-
         .clk(CLOCK_50),
         .rst(SW[1]),
         .start(SW[0]),
-
         .fim_led(fim_led),
         .fim_intervalo(fim_intervalo),
         .timeout(timeout),
-
         .fim_exibicao(fim_exibicao),
         .fim_entrada(fim_entrada),
-
         .jogada_valida(jogada_valida),
         .resultado_comparacao(resultado_comparacao),
-
         .nivel(nivel),
-
         .lfsr_enable(lfsr_enable),
         .mem_write(mem_write),
-
         .nivel_inc(nivel_inc),
-
         .cont_exp_inc(cont_exp_inc),
         .cont_exp_clr(cont_exp_clr),
-
         .cont_ent_inc(cont_ent_inc),
         .cont_ent_clr(cont_ent_clr),
-
         .timer_led(timer_led),
         .timer_intervalo(timer_intervalo),
         .timer_timeout(timer_timeout),
-
         .seletor_memoria(seletor_memoria),
-
         .estado(estado)
     );
 
+/*datapath*/
     datapath DP(
-
         .clk(CLOCK_50),
         .rst(SW[1]),
-
         .lfsr_enable(lfsr_enable),
         .mem_write(mem_write),
-
         .nivel_inc(nivel_inc),
-
         .cont_exp_inc(cont_exp_inc),
         .cont_exp_clr(cont_exp_clr),
-
         .cont_ent_inc(cont_ent_inc),
         .cont_ent_clr(cont_ent_clr),
-
         .timer_led(timer_led),
         .timer_intervalo(timer_intervalo),
         .timer_timeout(timer_timeout),
-
         .seletor_memoria(seletor_memoria),
-
         .key0(key0_db),
         .key1(key1_db),
         .key2(key2_db),
         .key3(key3_db),
-
         .fim_exibicao(fim_exibicao),
         .fim_entrada(fim_entrada),
-
         .resultado_comparacao(resultado_comparacao),
-
         .fim_led(fim_led),
         .fim_intervalo(fim_intervalo),
         .timeout(timeout),
-
         .jogada_valida(jogada_valida),
-
         .nivel(nivel),
-
         .simbolo_memoria(simbolo_memoria),
         .simbolo_jogado(simbolo_jogado)
     );
@@ -658,7 +633,6 @@ module genius (
         .valor(nivel),
         .hex(HEX0)
     );
-
     D7S DISPLAY_ESTADO(
         .valor(estado),
         .hex(HEX3)
