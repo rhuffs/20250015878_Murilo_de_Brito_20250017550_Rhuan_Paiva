@@ -247,6 +247,7 @@ module datapath(
     input timer_led,
     input timer_intervalo,
     input timer_timeout,
+    input seletor_memoria,
     input key0,
     input key1,
     input key2,
@@ -264,10 +265,12 @@ module datapath(
 wire [1:0] simbolo_randomico;
 wire [3:0] contador_exibicao;
 wire [3:0] contador_entrada;
+wire [3:0] endereco_leitura;
 wire jogada_valida;
 
+assign endereco_leitura = seletor_memoria ? contador_entrada : contador_exibicao;
 // LFSR
-gerador_pseudonimo GP(
+gerador_pseudoaleatorio  GP(
     .clk(clk),
     .rst(rst),
     .enable(lfsr_enable),
@@ -310,7 +313,7 @@ Memoria_sequencial MEM(
     .write_enable(mem_write),
     .write_addres(nivel),
     .write_data(simbolo_randomico),
-    .read_addres(contador_exibicao),
+    .read_addres(endereco_leitura   ),
     .read_data(simbolo_memoria)
 );
 
