@@ -258,6 +258,7 @@ module datapath(
     output fim_led,
     output fim_intervalo,
     output timeout,
+    output jogada_valida,
     output [3:0] nivel,
     output [1:0] simbolo_memoria,
     output [1:0] simbolo_jogado
@@ -266,7 +267,6 @@ wire [1:0] simbolo_randomico;
 wire [3:0] contador_exibicao;
 wire [3:0] contador_entrada;
 wire [3:0] endereco_leitura;
-wire jogada_valida;
 
 assign endereco_leitura = seletor_memoria ? contador_entrada : contador_exibicao;
 // LFSR

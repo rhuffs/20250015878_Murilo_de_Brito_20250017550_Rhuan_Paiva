@@ -9,6 +9,7 @@ module fsm(
     input fim_entrada,
     input jogada_valida,
     input resultado_comparacao,
+    input [3:0] nivel,
     output reg lfsr_enable,
     output reg mem_write,
     output reg nivel_inc,
@@ -34,6 +35,8 @@ module fsm(
     localparam PROXIMA_JOGADA   = 4'd9;
     localparam VITORIA_RODADA   = 4'd10;
     localparam DERROTA          = 4'd11;
+    localparam WIN              = 4'd12;
+
     reg [3:0] prox_estado;
 
     always @(posedge clk or posedge rst)
@@ -76,10 +79,18 @@ module fsm(
                 if(fim_entrada) prox_estado = VITORIA_RODADA;
                 else prox_estado = ESPERA_JOGADA;
             end
-            VITORIA_RODADA: prox_estado = GERAR;
-            DERROTA:
+            VITORIA_RODADA:begin
+                if(nivel == 4'd15) prox_estado = WIN;
+                else prox_estado = GERAR;
+            end
+            DERROTA: begin
                 if(!start) prox_estado = IDLE;
                 else prox_estado = DERROTA;
+            end
+            WIN: begin
+                if(!start) prox_estado = IDLE;
+                else prox_estado = WIN;
+            end
             default: prox_estado = IDLE;
         endcase
     end
@@ -110,7 +121,7 @@ module fsm(
             EXIBIR: timer_led = 1;
             INTERVALO: begin
                 timer_intervalo = 1;
-                cont_exp_inc = 1;
+                if(fim_intervalo) cont_exp_inc = 1;
             end
             PREP_ENTRADA: cont_ent_clr = 1;
             ESPERA_JOGADA:
