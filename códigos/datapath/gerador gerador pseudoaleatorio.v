@@ -1,4 +1,4 @@
-module gerador_pseudonimo (
+module gerador_pseudoaleatorio (
     input clk,
     input rst,
     input enable,
