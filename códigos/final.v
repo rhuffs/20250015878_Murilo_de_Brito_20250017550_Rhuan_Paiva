@@ -263,89 +263,89 @@ module datapath(
     output [1:0] simbolo_memoria,
     output [1:0] simbolo_jogado
 );
-wire [1:0] simbolo_randomico;
-wire [3:0] contador_exibicao;
-wire [3:0] contador_entrada;
-wire [3:0] endereco_leitura;
+    wire [1:0] simbolo_randomico;
+    wire [3:0] contador_exibicao;
+    wire [3:0] contador_entrada;
+    wire [3:0] endereco_leitura;
 
-assign endereco_leitura = seletor_memoria ? contador_entrada : contador_exibicao;
-// LFSR
-gerador_pseudoaleatorio  GP(
-    .clk(clk),
-    .rst(rst),
-    .enable(lfsr_enable),
-    .simbolo_randomico(simbolo_randomico)
-);
+    assign endereco_leitura = seletor_memoria ? contador_entrada : contador_exibicao;
+    // LFSR
+    gerador_pseudoaleatorio  GP(
+        .clk(clk),
+        .rst(rst),
+        .enable(lfsr_enable),
+        .simbolo_randomico(simbolo_randomico)
+    );
 
-// Registrador de nível
-Registrador_nivel RN(
-    .clk(clk),
-    .rst(rst),
-    .increment(nivel_inc),
-    .Nivel(nivel)
-);
+    // Registrador de nível
+    Registrador_nivel RN(
+        .clk(clk),
+        .rst(rst),
+        .increment(nivel_inc),
+        .Nivel(nivel)
+    );
 
-// Contador de exibição
-Contador_exibicao CE(
-    .clk(clk),
-    .rst(rst),
-    .clr(cont_exp_clr),
-    .increment(cont_exp_inc),
-    .Nivel(nivel),
-    .fim_exibicao(fim_exibicao),
-    .S(contador_exibicao)
-);
+    // Contador de exibição
+    Contador_exibicao CE(
+        .clk(clk),
+        .rst(rst),
+        .clr(cont_exp_clr),
+        .increment(cont_exp_inc),
+        .Nivel(nivel),
+        .fim_exibicao(fim_exibicao),
+        .S(contador_exibicao)
+    );
 
-// Contador de entrada
-Contador_entrada CI(
-    .clk(clk),
-    .rst(rst),
-    .clr(cont_ent_clr),
-    .increment(cont_ent_inc),
-    .Nivel(nivel),
-    .fim_entrada(fim_entrada),
-    .counter(contador_entrada)
-);
+    // Contador de entrada
+    Contador_entrada CI(
+        .clk(clk),
+        .rst(rst),
+        .clr(cont_ent_clr),
+        .increment(cont_ent_inc),
+        .Nivel(nivel),
+        .fim_entrada(fim_entrada),
+        .counter(contador_entrada)
+    );
 
-// Memória
-Memoria_sequencial MEM(
-    .clk(clk),
-    .write_enable(mem_write),
-    .write_addres(nivel),
-    .write_data(simbolo_randomico),
-    .read_addres(endereco_leitura   ),
-    .read_data(simbolo_memoria)
-);
+    // Memória
+    Memoria_sequencial MEM(
+        .clk(clk),
+        .write_enable(mem_write),
+        .write_addres(nivel),
+        .write_data(simbolo_randomico),
+        .read_addres(endereco_leitura   ),
+        .read_data(simbolo_memoria)
+    );
 
-// Entrada do jogador
-entrada_jogador EJ(
-    .key0(key0),
-    .key1(key1),
-    .key2(key2),
-    .key3(key3),
-    .simbolo_jogado(simbolo_jogado),
-    .jogada_valida(jogada_valida)
-);
+    // Entrada do jogador
+    entrada_jogador EJ(
+        .key0(key0),
+        .key1(key1),
+        .key2(key2),
+        .key3(key3),
+        .simbolo_jogado(simbolo_jogado),
+        .jogada_valida(jogada_valida)
+    );
 
 
-// Comparador
-Comparar CMP(
-    .simbolo_esperando(simbolo_memoria),
-    .simbolo_jogado(simbolo_jogado),
-    .resultado_comparacao(resultado_comparacao)
-);
+    // Comparador
+    Comparar CMP(
+        .simbolo_esperando(simbolo_memoria),
+        .simbolo_jogado(simbolo_jogado),
+        .resultado_comparacao(resultado_comparacao)
+    );
 
-// Temporizador
-temporizador TMP(
-    .clk(clk),
-    .rst(rst),
-    .ONLED(timer_led),
-    .INTERVALO(timer_intervalo),
-    .OFFLED(timer_timeout),
-    .ENDLED(fim_led),
-    .ENDINTERVALO(fim_intervalo),
-    .ENDOFFLED(timeout)
-);
+        // Temporizador
+    temporizador TMP(
+        .clk(clk),
+        .rst(rst),
+        .ONLED(timer_led),
+        .INTERVALO(timer_intervalo),
+        .OFFLED(timer_timeout),
+        .ENDLED(fim_led),
+        .ENDINTERVALO(fim_intervalo),
+        .ENDOFFLED(timeout)
+    );
 endmodule
 
 module fsm(
@@ -503,7 +503,7 @@ module genius (
     output [6:0] HEX0,
     output [6:0] HEX3
 );
-/*sinais datapath*/
+    /*sinais datapath*/
     wire lfsr_enable;
     wire mem_write;
     wire nivel_inc;
@@ -519,7 +519,7 @@ module genius (
     wire timer_timeout;
 
     wire seletor_memoria;
-/*sinais fsm*/
+    /*sinais fsm*/
     wire fim_exibicao;
     wire fim_entrada;
     wire resultado_comparacao;
@@ -533,7 +533,7 @@ module genius (
     wire [3:0] nivel;
     wire [1:0] simbolo_memoria;
     wire [1:0] simbolo_jogado;
-/*sinais debouncer*/
+    /*sinais debouncer*/
     wire key0_db;
     wire key1_db;
     wire key2_db;
@@ -566,7 +566,7 @@ module genius (
         .clock(key3_db)
     );
     wire [3:0] estado;
-//fsm
+    //fsm
     fsm CONTROL(
         .clk(CLOCK_50),
         .rst(SW[1]),
@@ -593,7 +593,7 @@ module genius (
         .estado(estado)
     );
 
-/*datapath*/
+    /*datapath*/
     datapath DP(
         .clk(CLOCK_50),
         .rst(SW[1]),
