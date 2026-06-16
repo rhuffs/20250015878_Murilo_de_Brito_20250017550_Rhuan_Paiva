@@ -430,7 +430,7 @@ module fsm(
                 else prox_estado = ESPERA_JOGADA;
             end
             VITORIA_RODADA:begin
-                if(nivel == 4'd15) prox_estado = WIN;
+                if(nivel == 4'd14) prox_estado = WIN;
                 else prox_estado = GERAR;
             end
             DERROTA: begin
